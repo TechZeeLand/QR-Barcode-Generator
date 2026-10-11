@@ -32,3 +32,4 @@ Not yet included: logo embedding, gradients, frames/captions, Data Matrix, PDF41
 
 Made by [TechZeeLand](https://github.com/TechZeeLand) · Contact: azlanaziz@rayaz.org
 # QR-Barcode-Generator
+# QR-Barcode-Generator
