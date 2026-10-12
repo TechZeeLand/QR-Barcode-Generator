@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);require __DIR__.'/../src/Layout.php';require __DIR__.'/../src/Barcode.php';use App\Layout as L;
-L::head('QR Code & Barcode Generator — free, private, open source');?>
+L::head('QR Code Generator');?>
 <main id="main-content" class="gen">
 <form id="f" autocomplete="off" class="gen-form">
  <section class="card"><h2><?php echo L::icon('qr-code'); ?> Content</h2>
