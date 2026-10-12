@@ -4,5 +4,3 @@ services:
     container_name: qr-barcode-generator
     ports: ["1026:80"]
     restart: unless-stopped
-    read_only: true
-    tmpfs: ["/tmp","/var/run/apache2","/var/lock/apache2"]

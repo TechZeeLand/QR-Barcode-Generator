@@ -57,7 +57,6 @@ final class Qr {
   $pos=[];if($v>1){$na=intdiv($v,7)+2;$step=$v==32?26:(int)ceil(($v*4+4)/($na*2-2))*2;$pos=[6];for($q=$n-7;count($pos)<$na;$q-=$step)array_splice($pos,1,0,[$q]);}
   $L=count($pos)-1;foreach($pos as $i=>$px)foreach($pos as $j=>$py){if(($i==0&&$j==0)||($i==0&&$j==$L)||($i==$L&&$j==0))continue;
    for($dy=-2;$dy<=2;$dy++)for($dx=-2;$dx<=2;$dx++)$set($px+$dx,$py+$dy,max(abs($dx),abs($dy))!=1);}
-  $tmp=$m;self::fmt($tmp,$n,$ecl,0);for($y=0;$y<$n;$y++)for($x=0;$x<$n;$x++)if($tmp[$y][$x]!==$m[$y][$x]||$y==8||$x==8||$y==$n-8||$x>=$n-8&&$y==8)$f[$y][$x]=true;
   for($y=0;$y<$n;$y++)for($x=0;$x<$n;$x++)if($x==8&&$y<9||$y==8&&($x<9||$x>=$n-8)||$x==8&&$y>=$n-8)$f[$y][$x]=true;
   if($v>=7){$r=$v;for($i=0;$i<12;$i++)$r=($r<<1)^(($r>>11)*0x1F25);$vb=($v<<12)|$r;
    for($i=0;$i<18;$i++){$d=(($vb>>$i)&1)==1;$a=$n-11+$i%3;$b=intdiv($i,3);$set($a,$b,$d);$set($b,$a,$d);}}

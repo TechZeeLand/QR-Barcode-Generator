@@ -7,6 +7,7 @@ if($_SERVER['REQUEST_METHOD']!=='POST'){http_response_code(405);exit('POST only'
 $data=(string)($_POST['data']??'');$type=(string)($_POST['type']??'qr');
 try{
  if(strlen($data)>2000)throw new InvalidArgumentException('Content is too long (max 2000 characters).');
- $svg=$type==='qr'?Render::qr(Qr::encode($data,(string)($_POST['ecc']??'M')),$_POST):Render::bar(Barcode::encode($type,$data),$_POST);
+ $ecc=Render::logo($_POST['logo']??null)!==''?'H':(string)($_POST['ecc']??'M');
+ $svg=$type==='qr'?Render::qr(Qr::encode($data,$ecc),$_POST):Render::bar(Barcode::encode($type,$data),$_POST);
  header('Content-Type: image/svg+xml');echo $svg;
 }catch(Throwable $e){http_response_code(400);header('Content-Type: text/plain; charset=utf-8');echo $e instanceof InvalidArgumentException||$e instanceof RuntimeException?$e->getMessage():'Could not generate this code.';}
