@@ -1,0 +1,24 @@
+/* QR & Barcode Generator: page-specific styles on top of the TZL design system (tzl.css). */
+.gen { max-width: 1200px; width: 100%; margin: 0 auto; padding: 28px 20px 60px; }
+.gen-intro { text-align: center; margin-bottom: 26px; }
+.gen-intro h1 { font-size: clamp(1.7rem, 4.2vw, 2.6rem); margin: 0 0 8px; }
+.gen-intro p { margin: 0 auto; max-width: 620px; color: var(--muted); }
+.gen-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 20px; align-items: start; }
+.gen-form .card, .gen-side .card { margin-bottom: 16px; }
+.gen-side { position: sticky; top: 84px; }
+#preview { min-height: 300px; display: flex; align-items: center; justify-content: center; padding: 14px; overflow: hidden; background: var(--bg-2); border: 1px dashed var(--border); border-radius: 12px; margin-bottom: 14px; }
+#preview img { max-width: 100%; height: auto; display: block; border-radius: 6px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.gen input[type=color] { width: 100%; height: 40px; padding: 2px; border: 1px solid var(--border); border-radius: 10px; background: var(--input-bg); cursor: pointer; }
+.contrast { font-size: .82rem; margin: 12px 0 0; padding: 8px 12px; border-radius: 10px; }
+.contrast.ok { background: color-mix(in srgb, var(--ok) 12%, transparent); color: var(--ok); }
+.contrast.warn { background: color-mix(in srgb, var(--warn) 14%, transparent); color: var(--warn); }
+.preset-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.preset-row input { flex: 1 1 140px; }
+.chip-wrap { display: inline-flex; align-items: center; gap: 2px; }
+#history .chip, #presets .chip { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.history-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.gen .code-block pre { white-space: pre-wrap; word-break: break-all; font-size: .74rem; }
+.content-wrap.wide { max-width: 960px; }
+.docs-actions { margin: 0 0 16px; }
+@media (max-width: 900px) { .gen-layout { grid-template-columns: 1fr; } .gen-side { position: static; } }
