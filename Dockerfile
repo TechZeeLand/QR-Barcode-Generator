@@ -1,8 +1,26 @@
 FROM php:8.3-apache
-RUN a2enmod headers rewrite \
- && sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
- && printf 'ServerTokens Prod\nServerSignature Off\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set Referrer-Policy "no-referrer"\nHeader always set Content-Security-Policy "default-src '"'"'self'"'"'; img-src '"'"'self'"'"' blob: data:; style-src '"'"'self'"'"'; script-src '"'"'self'"'"'; frame-ancestors '"'"'self'"'"'"\nErrorDocument 403 /403.php\nErrorDocument 404 /404.php\nErrorDocument 500 /500.php\n' > /etc/apache2/conf-available/hardening.conf \
- && a2enconf hardening
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libzip-dev \
+ && docker-php-ext-install zip \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod headers rewrite deflate \
+ && sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+COPY docker/apache.conf /etc/apache2/conf-available/tzl.conf
+COPY docker/php.ini /usr/local/etc/php/conf.d/zz-tzl.ini
+COPY docker/entrypoint.sh /usr/local/bin/tzl-entrypoint
+RUN a2enconf tzl \
+ && sed -i 's/\r$//' /usr/local/bin/tzl-entrypoint \
+ && chmod +x /usr/local/bin/tzl-entrypoint
+
+WORKDIR /var/www/html
 COPY . /var/www/html
+RUN mkdir -p data && chown -R www-data:www-data data
+
+VOLUME ["/var/www/html/data"]
 EXPOSE 80
-HEALTHCHECK --interval=30s CMD php -r 'exit(@file_get_contents("http://127.0.0.1/")?0:1);'
+HEALTHCHECK --interval=30s --timeout=5s CMD php -r 'exit(@file_get_contents("http://127.0.0.1/health")?0:1);'
+ENTRYPOINT ["tzl-entrypoint"]
+CMD ["apache2-foreground"]

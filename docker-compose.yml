@@ -1,6 +1,21 @@
 services:
-  qr-barcode-generator:
+  tzl-qr:
     build: .
-    container_name: qr-barcode-generator
+    container_name: tzl-qr
     ports: ["1026:80"]
     restart: unless-stopped
+    environment:
+      # Root domain of all TechZeeLand services. Change it once when you move to a new domain.
+      TZL_ROOT_DOMAIN: "${TZL_ROOT_DOMAIN:-rayaz.org}"
+      # Public URL of this service (can also be set in Admin > Site).
+      TZL_BASE_URL: "${TZL_BASE_URL:-https://qrcode.rayaz.org}"
+      TZL_ADMIN_USER: "${TZL_ADMIN_USER:-admin}"
+      # Leave empty to get a random password printed in `docker compose logs` on first start.
+      TZL_ADMIN_PASSWORD: "${TZL_ADMIN_PASSWORD:-}"
+      # 1 when a reverse proxy (Nginx, Caddy, Traefik, Cloudflare) terminates HTTPS in front of this container.
+      TZL_TRUST_PROXY: "${TZL_TRUST_PROXY:-1}"
+    volumes:
+      - qr_data:/var/www/html/data   # settings, pages, uploads, statistics
+
+volumes:
+  qr_data:
