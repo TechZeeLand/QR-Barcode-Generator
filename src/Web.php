@@ -30,6 +30,14 @@ final class Web
 
     public static function register(): void
     {
+        // Old .php addresses keep working (bookmarks, search engines, old API clients).
+        Router::get('#^/(index|about|contact|privacy-policy|terms-and-conditions|cookie-policy)\.php$#', static function (string $p): void {
+            Kit::redirect($p === 'index' ? '/' : '/' . $p, 301);
+        });
+        Router::get('#^/(privacy|terms)\.php$#', static function (string $p): void {
+            Kit::redirect($p === 'privacy' ? '/privacy-policy' : '/terms-and-conditions', 301);
+        });
+        Router::post('#^/api\.php$#', [self::class, 'generate']);
         Router::get('#^/$#', [self::class, 'home']);
         Router::get('#^/docs$#', [self::class, 'docs']);
         Router::get('#^/docs\.md$#', [self::class, 'docsMd']);
