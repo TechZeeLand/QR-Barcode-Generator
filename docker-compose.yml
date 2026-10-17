@@ -2,7 +2,7 @@ services:
   tzl-qr:
     build: .
     container_name: tzl-qr
-    ports: ["1026:80"]
+    ports: ["1028:80"]
     restart: unless-stopped
     environment:
       # Root domain of all TechZeeLand services. Change it once when you move to a new domain.
